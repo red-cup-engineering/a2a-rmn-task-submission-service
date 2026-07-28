@@ -1,0 +1,46 @@
+{
+  "name": "@red-cup-engineering/a2a-rmn-task-submission-service",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "One atomic, signed A2A submission die for canonical RMN tasks.",
+  "exports": {
+    ".": "./src/submission.mjs",
+    "./executor": "./src/executor.mjs"
+  },
+  "scripts": {
+    "check": "node --check src/submission.mjs && node --check src/executor.mjs",
+    "test": "node --test test/*.test.mjs",
+    "verify": "npm run check && npm test"
+  },
+  "dependencies": {
+    "@a2a-js/sdk": "1.0.0-beta.0",
+    "@red-cup-engineering/a2a-agent-card-discovery-service": "1.0.0",
+    "@red-cup-engineering/a2a-contracted-agent-service": "2.0.4",
+    "@red-cup-engineering/a2a-rmn-part-service": "1.0.0",
+    "@red-cup-engineering/rmn-semantic-conformance": "6.0.0",
+    "@lenticule-science/rmn-semantic-conformance-die": "6.0.0"
+  },
+  "x-author-handoff": {
+    "candidate": "one-effect A2A submission implementation",
+    "status": "not a cast die, released package, minted enterprise, mounted node, or market offer"
+  },
+  "x-semiotic-voxel": {
+    "profile": "org.harmonious-union.semiotic-voxel.v1",
+    "owner": "red-cup-engineering",
+    "kind": "capability-cell",
+    "actor": "urn:ame:a2a-rmn-task-submission-service",
+    "operations": [
+      "a2a-rmn-task-submission-service"
+    ],
+    "capabilities": [
+      {
+        "capability": "a2a-rmn-task-submission-service",
+        "faces": [
+          "a2a-rmn-task-submission-service"
+        ]
+      }
+    ],
+    "package": "@red-cup-engineering/a2a-rmn-task-submission-service"
+  }
+}
