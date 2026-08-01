@@ -4,7 +4,7 @@ import { ClientFactory, ServiceParameters, withA2AExtensions } from "@a2a-js/sdk
 import { discoverSignedAgentCard } from "@red-cup-engineering/a2a-agent-card-discovery-service";
 import { extractRmnPart } from "@red-cup-engineering/a2a-rmn-part-service";
 import { decodeSemantic, semanticBytes, semanticId } from "@red-cup-engineering/rmn-semantic-conformance";
-import { SOVEREIGN_CIRCUIT_INTERFACE_EXTENSION, circuitInterfaceFromAgentCard } from "@lenticule-science/rmn-semantic-conformance-die/hierarchical-circuit";
+import { SOVEREIGN_CIRCUIT_INTERFACE_EXTENSION, circuitInterfaceFromAgentCard } from "@red-cup-engineering/rmn-semantic-conformance-die/hierarchical-circuit";
 import { decodeRelationalValue, encodeRelationalValue } from "@red-cup-engineering/rmn-semantic-conformance/relational-value";
 
 export const ACTOR = "urn:ame:a2a-rmn-task-submission-service";
