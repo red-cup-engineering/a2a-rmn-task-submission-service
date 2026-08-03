@@ -1,6 +1,6 @@
 {
   "name": "@red-cup-engineering/a2a-rmn-task-submission-service",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "private": true,
   "type": "module",
   "description": "One atomic, signed A2A submission die for canonical RMN tasks.",
@@ -18,8 +18,8 @@
     "@red-cup-engineering/a2a-agent-card-discovery-service": "1.0.1",
     "@red-cup-engineering/a2a-contracted-agent-service": "2.0.5",
     "@red-cup-engineering/a2a-rmn-part-service": "1.0.1",
-    "@red-cup-engineering/rmn-semantic-conformance": "6.0.2",
-    "@red-cup-engineering/rmn-semantic-conformance-die": "6.0.1"
+    "@red-cup-engineering/semantic-content-identify-service": "0.2.2",
+    "@red-cup-engineering/relation-model-notation-runtime": "8.0.0"
   },
   "x-author-handoff": {
     "candidate": "one-effect A2A submission implementation",

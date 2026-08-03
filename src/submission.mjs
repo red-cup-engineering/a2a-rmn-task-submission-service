@@ -3,14 +3,20 @@ import { AgentCard, Message, Role } from "@a2a-js/sdk";
 import { ClientFactory, ServiceParameters, withA2AExtensions } from "@a2a-js/sdk/client";
 import { discoverSignedAgentCard } from "@red-cup-engineering/a2a-agent-card-discovery-service";
 import { extractRmnPart } from "@red-cup-engineering/a2a-rmn-part-service";
-import { decodeSemantic, semanticBytes, semanticId } from "@red-cup-engineering/rmn-semantic-conformance";
-import { SOVEREIGN_CIRCUIT_INTERFACE_EXTENSION, circuitInterfaceFromAgentCard } from "@red-cup-engineering/rmn-semantic-conformance-die/hierarchical-circuit";
-import { decodeRelationalValue, encodeRelationalValue } from "@red-cup-engineering/rmn-semantic-conformance/relational-value";
+import { admitNormalizedSemanticContent } from "@red-cup-engineering/semantic-content-identify-service";
+import { SOVEREIGN_CIRCUIT_INTERFACE_EXTENSION, circuitInterfaceFromAgentCard } from "@red-cup-engineering/relation-model-notation-runtime/hierarchical-circuit";
+import {
+  admitRelationalValuePayload,
+  decodeRelationalValue,
+  identifyRelationalValuePayload,
+} from "@red-cup-engineering/relation-model-notation-runtime/relational-value";
 
 export const ACTOR = "urn:ame:a2a-rmn-task-submission-service";
 export const OPERATION = "submit-canonical-rmn-a2a-task";
-function term(value) { const encoded = encodeRelationalValue(value); return ["ascribe", encoded.type, encoded.term]; }
-export function canonical(value) { const valueTerm = term(value); return Object.freeze({ id: semanticId(valueTerm), bytes: semanticBytes(valueTerm) }); }
+export function canonical(value) {
+  const payload = identifyRelationalValuePayload(value);
+  return Object.freeze({ id: payload.token, bytes: payload.bytes });
+}
 
 function exact(value, label) {
   if (!value || typeof value !== "object" || Array.isArray(value) || typeof value.id !== "string") throw new Error(`${label} must carry one canonical ni identity`);
@@ -21,10 +27,9 @@ function exact(value, label) {
 }
 function receipt(body) { const identity = canonical(body); return Object.freeze({ ...body, id: identity.id }); }
 
-function requestValue(bytes) {
-  const decoded = decodeSemantic(bytes);
-  if (!semanticBytes(decoded).equals(bytes) || decoded?.[0] !== "ascribe") throw new Error("submission requires canonical typed RMN CBOR");
-  return decodeRelationalValue(decoded[1], decoded[2]);
+function requestValue(bytes, token) {
+  const admitted = admitRelationalValuePayload({ bytes, token });
+  return decodeRelationalValue(admitted.claim.semanticType, admitted.claim.term);
 }
 
 export async function submitCanonicalRmnA2aTask(source, { discover = discoverSignedAgentCard, clientFactory = new ClientFactory(), signal } = {}) {
@@ -35,7 +40,7 @@ export async function submitCanonicalRmnA2aTask(source, { discover = discoverSig
   const message = Message.fromJSON(demand.message);
   if (message.role !== Role.ROLE_USER) throw new Error("submission requires one A2A ROLE_USER message");
   const input = extractRmnPart(message.parts);
-  if (!semanticBytes(decodeSemantic(input.bytes)).equals(input.bytes)) throw new Error("submission message carries noncanonical RMN bytes");
+  admitNormalizedSemanticContent(input.bytes, input.ni);
   const agentCard = await discover({ agentUrl: demand.targetAgentCardUrl, signal });
   const card = AgentCard.toJSON(agentCard);
   if ((card.securityRequirements?.length ?? 0) !== 0 || Object.keys(card.securitySchemes ?? {}).length !== 0) throw new Error("submission die has no ambient credential authority; target authentication is a separate articulation");
@@ -54,4 +59,4 @@ export async function submitCanonicalRmnA2aTask(source, { discover = discoverSig
 }
 
 export function encode(value) { return canonical(exact(value, "submission receipt")); }
-export function decode(bytes) { return requestValue(bytes); }
+export function decode(bytes, token) { return requestValue(bytes, token); }

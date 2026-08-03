@@ -6,7 +6,7 @@ export async function executeA2aMessage(source, options = {}) {
   const message = Message.fromJSON(source);
   if (message.role !== Role.ROLE_USER) throw new Error("submission die requires an A2A ROLE_USER message");
   const input = extractRmnPart(message.parts);
-  const demand = decode(input.bytes);
+  const demand = decode(input.bytes, input.ni);
   const receipt = await (options.submit ?? submitCanonicalRmnA2aTask)(demand, options);
   const output = encode(receipt);
   return Message.toJSON({ messageId: "", contextId: message.contextId, taskId: message.taskId, role: Role.ROLE_AGENT, parts: [rmnPart(output.bytes, "a2a-rmn-task-submission-receipt.rmn.cbor")], metadata: { inputNi: input.ni, outputNi: output.id, provider: receipt.provider }, extensions: [], referenceTaskIds: [] });
