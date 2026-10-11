@@ -18,7 +18,7 @@
     "@red-cup-engineering/a2a-agent-card-discovery-service": "workspace:*",
     "@red-cup-engineering/a2a-contracted-agent-service": "workspace:*",
     "@red-cup-engineering/a2a-rmn-part-service": "workspace:*",
-    "@red-cup-engineering/semantic-content-identify-service": "0.2.2",
+    "@red-cup-engineering/semantic-content-identify-service": "workspace:*",
     "@red-cup-engineering/relation-model-notation-runtime": "workspace:*"
   },
   "x-author-handoff": {
