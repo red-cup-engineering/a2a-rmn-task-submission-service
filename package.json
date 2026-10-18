@@ -6,8 +6,7 @@
   "description": "One atomic, signed A2A submission die for canonical RMN tasks.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/red-cup-engineering/computer-web-engineering-services-section.git",
-    "directory": "services/web-protocol-services-section/services/a2a-services-section/services/a2a-rmn-task-submission-service"
+    "url": "git+https://github.com/red-cup-engineering/a2a-rmn-task-submission-service.git"
   },
   "exports": {
     ".": "./src/submission.mjs",
