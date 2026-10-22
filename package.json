@@ -28,5 +28,10 @@
   "x-author-handoff": {
     "candidate": "one-effect A2A submission implementation",
     "status": "not a cast die, released package, minted enterprise, mounted node, or market offer"
+  },
+  "license": "MIT",
+  "funding": {
+    "type": "individual",
+    "url": "https://github.com/561-group/.github/blob/main/TIPS.md"
   }
 }
